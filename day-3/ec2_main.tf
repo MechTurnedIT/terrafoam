@@ -6,7 +6,7 @@ resource "aws_instance" "devpub" {
   associate_public_ip_address = true
   vpc_security_group_ids = [ aws_security_group.custsg.id ]
   tags = {
-    name = "ec2pub"
+    Name = "ec2pub"
   }
 }
 
@@ -17,6 +17,6 @@ resource "aws_instance" "devpvt" {
   subnet_id              = aws_subnet.private.id
   vpc_security_group_ids = [aws_security_group.custsg.id]
   tags = {
-    name = "ec2pvt"
+    Name = "ec2pvt"
   }
 }

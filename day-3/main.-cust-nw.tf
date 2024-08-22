@@ -5,7 +5,7 @@
 resource "aws_vpc" "myvpc" {
   cidr_block = "10.0.0.0/16"
   tags = {
-    name = "my-cust-vpc"
+    Name = "my-cust-vpc"
   }
 
 }
@@ -15,7 +15,7 @@ resource "aws_vpc" "myvpc" {
 resource "aws_internet_gateway" "cust" {
   vpc_id = aws_vpc.myvpc.id
   tags = {
-    name = "my_ig"
+    Name = "my_ig"
   }
 }
 
@@ -26,7 +26,7 @@ resource "aws_subnet" "public" {
   cidr_block        = "10.0.0.0/24"
   availability_zone = "eu-west-1a"
   tags = {
-    name = "pub_sub"
+    Name = "pub_sub"
   }
 }
 
@@ -35,7 +35,7 @@ resource "aws_subnet" "private" {
   availability_zone = "eu-west-1b"
   cidr_block        = "10.0.2.0/24"
   tags = {
-    name = "pvt_sub"
+    Name = "pvt_sub"
   }
 }
 
@@ -56,6 +56,45 @@ resource "aws_route_table_association" "cust" {
   route_table_id = aws_route_table.custrt.id
   subnet_id      = aws_subnet.public.id
 }
+
+#    create elastic ip for nat gateway
+
+resource "aws_eip" "elastic" {
+  
+}
+
+#     creating nat gateway
+
+resource "aws_nat_gateway" "natg" {
+   subnet_id = aws_subnet.public.id
+   connectivity_type = "public"
+   allocation_id = aws_eip.elastic.id
+   tags = {
+     Name= "natgway"
+   }
+}
+
+
+#    creating private route table and edit route
+   
+   resource "aws_route_table" "pvtrt" {
+     vpc_id = aws_vpc.myvpc.id
+     tags = {
+       Name="pvtrt"
+     }
+     route {
+      cidr_block = "0.0.0.0/0"
+      gateway_id = aws_nat_gateway.natg.id
+     }
+   }
+
+#    attaching pvt rt to pvt subnet
+
+   resource "aws_route_table_association" "pvtassociation" {
+     route_table_id = aws_route_table.pvtrt.id
+     subnet_id = aws_subnet.private.id
+   }
+
 
 #     create security group
 
