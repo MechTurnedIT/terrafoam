@@ -1,15 +1,17 @@
 resource "aws_lb_target_group" "target" {
   name     = "tg"
-  port     = 80
+  port     =  80
   protocol = "HTTP"
-  vpc_id   = "vpc-017763ccc560eb33a"
+  vpc_id   = data.aws_vpc.custvpc.id
+
 }
 
 resource "aws_lb" "alb" {
   name               = "alb"
   internal           = false
   load_balancer_type = "application"
-  subnets            = ["subnet-009e1bc0e16e88a6c","subnet-0220212bf95070aa8"]
+  subnets            = [data.aws_subnet.sub1.id, data.aws_subnet.sub2.id]
+  security_groups = [ data.aws_security_group.sg.id ]
   depends_on = [ aws_lb_target_group.target ]
   tags = {
     Name = "ALB"
