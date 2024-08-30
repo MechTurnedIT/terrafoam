@@ -22,3 +22,5 @@ resource "aws_instance" "dev" {
 }
 
 
+# If var.instance_type is "t2.micro", then count will be 1, and the aws_instance resource will be created.
+# If var.instance_type is anything other than "t2.micro", then count will be 0, and the aws_instance resource will not be created.
