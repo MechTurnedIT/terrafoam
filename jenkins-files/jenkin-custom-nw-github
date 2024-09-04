@@ -1,0 +1,34 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('clone') {
+            steps {
+                git branch: 'main', url: 'https://github.com/MechTurnedIT/terraform.git'
+            }
+        }
+       
+        stage('init') {
+            steps {
+                dir ('day-3-custom-network')
+                {
+                sh 'terraform init'
+                }
+            }
+        }
+      stage('plan') {
+            steps {
+                 dir ('day-3-custom-network')
+                 {
+                 sh 'terraform plan'}
+            }
+        } 
+        stage('action') {
+            steps {
+                 dir ('day-3-custom-network')
+                 {
+                 sh 'terraform apply -auto-approve'}
+            }
+        }
+    }
+}

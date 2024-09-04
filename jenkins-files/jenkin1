@@ -1,0 +1,26 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('clone') {
+            steps {
+                git branch: 'main', url: 'https://github.com/MechTurnedIT/loki.git'
+            }
+        }
+        stage('init') {
+            steps {
+                sh 'terraform init'
+            }
+        }
+       stage('plan') {
+            steps {
+                sh 'terraform plan'
+            }
+        } 
+        stage('action') {
+            steps {
+                sh 'terraform apply -auto-approve'
+            }
+        }
+    }
+}
