@@ -1,0 +1,18 @@
+node {
+    
+    stage('Preparation') { 
+    git branch: 'main', url: 'https://github.com/MechTurnedIT/terraform.git'
+        
+    }
+    stage('Build') {
+      dir('day-1-basic-iac-codes') {
+           sh 'terraform init'    
+              }
+        }
+    
+    stage('Results') {
+       dir('day-1-basic-iac-codes') {
+           sh 'terraform plan'
+    }
+}
+}
