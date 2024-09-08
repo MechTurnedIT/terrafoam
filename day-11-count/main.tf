@@ -7,7 +7,7 @@ resource "aws_instance" "test" {
     
   tags = {
     #Name = "dev-1"
-    #Name = "web-${count.index}"     # will create ec2 with name web-0,web-1 as per count given
+    #Name = "web-${count.index}"     # will create ec2 with name web-0,web-1 ,.......as per count given
     Name= var.test[count.index]
   }
 }

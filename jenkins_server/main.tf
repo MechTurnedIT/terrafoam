@@ -1,4 +1,4 @@
-resource "aws_instance" "geek"{
+resource "aws_instance" "jengeek"{
     ami = "ami-0a2202cf4c36161a1"
     instance_type = "t2.medium"
     availability_zone = "eu-west-1c"
@@ -6,6 +6,6 @@ resource "aws_instance" "geek"{
     user_data              = templatefile("./install.sh", {})
     
   tags = {
-    Name = "jengeek"
+    Name = "jenkins_server"
   }
 }

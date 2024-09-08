@@ -14,7 +14,7 @@ provider "aws" {
 #run terraform providers command to check version just for provider version identification
 
 
-### ----- below example for specifi version range we can take ---- ####
+### ----- below example for specific version range we can take ---- ####
 # terraform {
 #   required_providers {
 #     aws = {
